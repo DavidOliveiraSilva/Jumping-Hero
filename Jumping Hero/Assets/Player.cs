@@ -5,12 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed;
-    public float jumpSpeed;
     private Rigidbody2D rb;
-    public bool grounded;
-    public bool onFloor;
     private bool dead;
     private GameMaster gm;
+    public float reactionRadius;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,34 +20,25 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!dead) {
-            float hor = Input.GetAxis("Horizontal");
-
-            if (Mathf.Abs(hor) > 0) {
-                rb.velocity = new Vector2(speed * Time.deltaTime * hor, rb.velocity.y);
-            } else {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+            if (Input.GetMouseButtonDown(0)) {
+                Vector3 pos = Input.mousePosition;
+                print(pos);
+                Vector3 posWorld = Camera.current.ScreenToWorldPoint(pos);
+                Vector3 deltaPos = posWorld - transform.position;
+                if (deltaPos.x > reactionRadius || deltaPos.y > reactionRadius) {
+                    float angle = Mathf.Atan2(deltaPos.y, deltaPos.x);
+                    rb.velocity = new Vector2(speed * Mathf.Cos(angle), speed * Mathf.Sin(angle));
+                } else {
+                    rb.velocity = new Vector2(0, 0);
+                }
             }
-            if (Input.GetButtonDown("Jump") && grounded) {
-                Jump();
-                grounded = false;
-                onFloor = false;
-            }
+            
         }
     }
-    void Jump() {
-        rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
-    }
+    
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject.tag == "Floor") {
-            grounded = true;
-            onFloor = true;
-        }
-        if(collision.gameObject.tag == "Plataforma") {
-            grounded = true;
-            if (onFloor) {
-                dead = true;
-                gm.playerDead = true;
-            }
-        }
+        
     }
 }
+//if (Input.touchCount > 0) {
+//Vector2 pos = Input.GetTouch(0).position;

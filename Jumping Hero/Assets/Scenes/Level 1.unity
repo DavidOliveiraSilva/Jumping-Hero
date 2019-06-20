@@ -512,7 +512,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -593,10 +593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c53c283d77f084ba9d2e306951a5ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
-  jumpSpeed: 10
-  grounded: 0
-  onFloor: 0
+  speed: 6
+  reactionRadius: 0.5
 --- !u!1 &1992249967
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +990,11 @@ PrefabInstance:
     - target: {fileID: 6482686732858820753, guid: cd7caa7fe5f6ae248ab5e7679d9c2559,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482686732858820759, guid: cd7caa7fe5f6ae248ab5e7679d9c2559,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

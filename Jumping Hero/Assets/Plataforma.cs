@@ -28,7 +28,7 @@ public class Plataforma : MonoBehaviour
         //[/gambis]
         if (coisas.Length > 0) {
             int posicaoLivre = Random.Range(0, 6);
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (i != posicaoLivre && i != posicaoLivre + 6) {
                     if (Random.Range(0.0f, 1.0f) < probabilidade) {
                         int j = Random.Range(0, coisas.Length);
