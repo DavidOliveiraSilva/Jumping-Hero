@@ -21,22 +21,35 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!dead) {
-            print(Input.GetMouseButtonDown(0));
+
+            //using mouse
             if (Input.GetMouseButtonDown(0)) {
                 pressing = true;
             }
             if(Input.GetMouseButtonUp(0)){
                 pressing = false;
             }
+
+            //using touch
+            if (Input.touchCount > 0) {
+                pressing = true;
+            } else {
+                pressing = false;
+            }
+
             if (pressing) {
-                Vector3 pos = Input.mousePosition;
-                
+                //using mouse
+                //Vector3 pos = Input.mousePosition;
+
+                //using touch
+                Vector2 pos = Input.GetTouch(0).position;
+
                 Vector3 posWorld = Camera.main.ScreenToWorldPoint(pos);
                 Vector3 deltaPos = posWorld - transform.position;
-                print(distance(posWorld, transform.position));
-                if (distance(posWorld, transform.position) > reactionRadius) {
+                float dist = distance(posWorld, transform.position);
+                if (dist > reactionRadius) {
                     float angle = Mathf.Atan2(deltaPos.y, deltaPos.x);
-                    rb.velocity = new Vector2(speed * Mathf.Cos(angle), speed * Mathf.Sin(angle));
+                    rb.velocity = new Vector2(speed * Mathf.Cos(angle)*Mathf.Sqrt(dist - reactionRadius), speed * Mathf.Sin(angle) * Mathf.Sqrt(dist - reactionRadius));
                 } else {
                     rb.velocity = new Vector2(0, 0);
                 }
