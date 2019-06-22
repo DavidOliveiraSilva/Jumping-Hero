@@ -593,8 +593,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c53c283d77f084ba9d2e306951a5ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  reactionRadius: 0.5
+  speed: 10
+  reactionRadius: 0.4
+  pressing: 0
 --- !u!1 &1992249967
 GameObject:
   m_ObjectHideFlags: 0
