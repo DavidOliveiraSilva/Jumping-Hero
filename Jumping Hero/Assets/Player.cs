@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private bool dead;
     private GameMaster gm;
     public float reactionRadius;
+    public bool pressing;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +21,27 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!dead) {
+            print(Input.GetMouseButtonDown(0));
             if (Input.GetMouseButtonDown(0)) {
+                pressing = true;
+            }
+            if(Input.GetMouseButtonUp(0)){
+                pressing = false;
+            }
+            if (pressing) {
                 Vector3 pos = Input.mousePosition;
-                print(pos);
-                Vector3 posWorld = Camera.current.ScreenToWorldPoint(pos);
+                
+                Vector3 posWorld = Camera.main.ScreenToWorldPoint(pos);
                 Vector3 deltaPos = posWorld - transform.position;
-                if (deltaPos.x > reactionRadius || deltaPos.y > reactionRadius) {
+                print(distance(posWorld, transform.position));
+                if (distance(posWorld, transform.position) > reactionRadius) {
                     float angle = Mathf.Atan2(deltaPos.y, deltaPos.x);
                     rb.velocity = new Vector2(speed * Mathf.Cos(angle), speed * Mathf.Sin(angle));
                 } else {
                     rb.velocity = new Vector2(0, 0);
                 }
+            } else {
+                rb.velocity = new Vector2(0, 0);
             }
             
         }
@@ -38,6 +49,9 @@ public class Player : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision) {
         
+    }
+    private float distance(Vector2 first, Vector2 second) {
+        return Mathf.Sqrt(Mathf.Pow(first.x - second.x, 2) + Mathf.Pow(first.y - second.y, 2));
     }
 }
 //if (Input.touchCount > 0) {
