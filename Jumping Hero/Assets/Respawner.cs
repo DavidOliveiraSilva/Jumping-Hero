@@ -26,30 +26,33 @@ public class Respawner : MonoBehaviour
     public EventMultiplier[] eventsInterval;
     private int currentEventI;
     private float clock;
+    private GameMaster gm;
     // Start is called before the first frame update
     void Start()
     {
         lastRespawn = Time.time;
-       
+        gm = GameObject.Find("GameMaster").GetComponent<GameMaster>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        clock += Time.deltaTime;
-        if(active && Time.time - lastRespawn > interval) {
-            GameObject p = Instantiate(platform);
-            p.transform.position = transform.position;
-            p.GetComponent<Plataforma>().multiplier = multiplier;
-            lastRespawn = Time.time;
-        }
-        if (currentEventM < eventsMultiplier.Length && clock > eventsMultiplier[currentEventM].timeStamp) {
-            multiplier = eventsMultiplier[currentEventM].value;
-            currentEventM++;
-        }
-        if (currentEventI < eventsInterval.Length && clock > eventsInterval[currentEventI].timeStamp) {
-            interval = eventsInterval[currentEventI].value;
-            currentEventM++;
+        if (gm.playing) {
+            clock += Time.deltaTime;
+            if (active && Time.time - lastRespawn > interval) {
+                GameObject p = Instantiate(platform);
+                p.transform.position = transform.position;
+                p.GetComponent<Plataforma>().multiplier = multiplier;
+                lastRespawn = Time.time;
+            }
+            if (currentEventM < eventsMultiplier.Length && clock > eventsMultiplier[currentEventM].timeStamp) {
+                multiplier = eventsMultiplier[currentEventM].value;
+                currentEventM++;
+            }
+            if (currentEventI < eventsInterval.Length && clock > eventsInterval[currentEventI].timeStamp) {
+                interval = eventsInterval[currentEventI].value;
+                currentEventM++;
+            }
         }
     }
 }
